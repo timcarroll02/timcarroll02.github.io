@@ -62,16 +62,16 @@ Explore your returns at 60 on this page.
     </div>
     <table class="table table-striped">
         <thead>
-        <tr><th>Average Return</th><th data-ng-repeat="i in interestRates">{{ i.toFixed(2) }}%</th></tr>
+        <tr><th>Average Return</th><th data-ng-repeat="i in interestRates">{{ (100 * i).toFixed(0) }}%</th></tr>
         </thead>
         <tbody>
-        <tr><td>Balance</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(futureValue(i, toSixty()).toFixed(2))}}</td></tr>
-        <tr><td>Yearly Distribution</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(yearlyDistribution(i, toSixty()).toFixed(2))}}</td></tr>
-        <tr><td>Monthly Distribution</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(monthlyDistribution(i, toSixty()).toFixed(2))}}</td></tr>
+        <tr><td>Balance</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(futureValue(i, toSixty()).toFixed(0))}}</td></tr>
+        <tr><td>Yearly Distribution</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(yearlyDistribution(i, toSixty()).toFixed(0))}}</td></tr>
+        <tr><td>Monthly Distribution</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(monthlyDistribution(i, toSixty()).toFixed(0))}}</td></tr>
         </tbody>
         <tfoot>
-        <tr><td>Net Monthly Income</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(netMonthlyIncome(i, toSixty()).toFixed(2))}}</td> </tr>
-        <tr><td>Net Yearly Income</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(netYearlyIncome(i, toSixty()).toFixed(2))}}</td> </tr>
+        <tr><td>Net Monthly Income</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(netMonthlyIncome(i, toSixty()).toFixed(0))}}</td> </tr>
+        <tr><td>Net Yearly Income</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(netYearlyIncome(i, toSixty()).toFixed(0))}}</td> </tr>
         </tfoot>
     </table>
 </div>
