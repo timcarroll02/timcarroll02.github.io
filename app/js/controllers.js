@@ -5,18 +5,52 @@
 angular.module('timWeb.controllers', []).
   controller('userDetails', ['$scope', function($scope) {
         $scope.userDetails = {
-            current_principal: 70000,
-            yearly_contributions: 12000,
-            birthday: new Date('1985-11-19'),
-            withdrawal_rate: 0.05,
-            tax_rate: 0.25
+            currentPrincipal: 70000,
+            yearlyContributions: 12000,
+            age: 30,
+            withdrawalRate: 0.05,
+            taxRate: 0.25
         };
 
-        $scope.numberWithCommas = function(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+        $scope.toSixty = function(){
+            return 60 - this.userDetails.age;
+        };
 
-        $scope.interest = function(years){return this.userDetails.current_principal * years;};
+        $scope.futureValue = function(interestRate, years){
+            var interestReturn = Math.pow(1 + interestRate, years);
+            var principalReturn = (this.userDetails.currentPrincipal * interestReturn);
+            if (interestRate==0){
+                return principalReturn + years * this.userDetails.yearlyContributions;
+            }
+            var annuityReturn = this.userDetails.yearlyContributions * ((interestReturn - 1)/interestRate);
+            return principalReturn + annuityReturn;
+
+        };
+
+        $scope.yearlyDistribution = function(interestRate, years){
+            return this.userDetails.withdrawalRate * this.futureValue(interestRate, years);
+        };
+
+        $scope.monthlyDistribution = function(interestRate, years){
+            return this.yearlyDistribution(interestRate, years) / 12;
+        };
+
+        $scope.netMonthlyIncome = function(interestRate, years){
+            return this.monthlyDistribution(interestRate, years) * (1 - this.userDetails.taxRate);
+        };
+
+        $scope.netYearlyIncome = function(interestRate, years){
+            return this.yearlyDistribution(interestRate, years) * (1 - this.userDetails.taxRate);
+        };
+
+        $scope.numberWithCommas = function (x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        };
+
+        $scope.interestRates = [];
+        for (var j = 0; j < 15; j++){
+            $scope.interestRates[j] = 0.01 * j - 0.02;
+        }
 
   }])
   .controller('MyCtrl2', [function() {
