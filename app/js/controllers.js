@@ -9,11 +9,13 @@ angular.module('timWeb.controllers', []).
             yearlyContributions: 12000,
             age: 30,
             withdrawalRate: 0.05,
-            taxRate: 0.25
+            taxRate: 0.25,
+            effectiveInterestRate: 0.05,
+            sixtyInterest: 0.05
         };
 
         $scope.toSixty = function(){
-            return 60 - this.userDetails.age;
+            return 59.5 - this.userDetails.age;
         };
 
         $scope.futureValue = function(interestRate, years){
@@ -25,6 +27,14 @@ angular.module('timWeb.controllers', []).
             var annuityReturn = this.userDetails.yearlyContributions * ((interestReturn - 1)/interestRate);
             return principalReturn + annuityReturn;
 
+        };
+
+        $scope.withdrawal = function(principal, years, rate){
+            if(years == 0){
+                return principal;
+            } else {
+                return this.withdrawal(principal * (1 + rate) * (1 - this.userDetails.withdrawalRate), years - 1, rate);
+            }
         };
 
         $scope.yearlyDistribution = function(interestRate, years){
@@ -48,7 +58,7 @@ angular.module('timWeb.controllers', []).
         };
 
         $scope.interestRates = [];
-        for (var j = 0; j < 15; j++){
+        for (var j = 0; j < 13; j++){
             $scope.interestRates[j] = 0.01 * j - 0.02;
         }
 
