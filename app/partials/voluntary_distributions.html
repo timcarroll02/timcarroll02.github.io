@@ -78,7 +78,7 @@
     <p>
         Assuming your effective interest until you hit 59&frac12 was
         <span class="form form-inline"><input class="form-control input-sm" type="number" step="0.01" ng-model="userDetails.effectiveInterestRate"></span>,
-        then your principal is ${{numberWithCommas(futureValue(userDetails.effectiveInterestRate, toSixty()).toFixed(0))}}.  With
+        then your principal is ${{numberWithCommas(moneyAtSixty().toFixed(0))}}.  With
         a withdrawal rate of {{(100 * userDetails.withdrawalRate).toFixed(0)}}%, your remaining principal at 70 will be
     </p>
     <table class="table table-striped">

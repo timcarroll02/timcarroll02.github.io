@@ -1,0 +1,107 @@
+<h1>
+    401(k) Tracker
+</h1>
+<div class="col-lg-12">
+
+    <p class="lead">
+        Explore your returns at 70 on this page.
+    </p>
+    <h3>General Rules:</h3>
+    <ul>
+        <li>
+            Distributions can be taken without penalty in the year a person attains age 59&frac12.
+        </li>
+        <li>
+            Distributions are required to begin by April 1 of the calendar year following the later of:
+            <ol>
+                <li> the calendar year in which the participant attains age 70&frac12 or</li>
+                <li> the calendar year in which the participant retires.</li>
+            </ol>
+        </li>
+        <li>
+            Distributions from a 401(k) or traditional IRA are taxable.
+        </li>
+        <li>
+            Distributions from a Roth IRA are tax-free.
+        </li>
+    </ul>
+</div>
+
+<div ng-controller="userDetails">
+    <div class="col-sm-12">
+        <div class="col-sm-2">
+            <label>
+                Current principal:
+                <input class="form-control" type="number" step="500" ng-model="userDetails.currentPrincipal">
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Yearly Contributions:
+                <input class="form-control" type="number" step="100" ng-model="userDetails.yearlyContributions">
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Age:
+                <input class="form-control" type="number" ng-model="userDetails.age">
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Withdrawal Rate:
+                <input class="form-control" type="number" step="0.01" ng-model="userDetails.withdrawalRate">
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>
+                Total Tax Rate:
+                <input class="form-control" type="number" step="0.01" ng-model="userDetails.taxRate">
+            </label>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr><th>Average Return</th><th data-ng-repeat="i in interestRates">{{ (100 * i).toFixed(0) }}%</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Balance</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(futureValue(i, toSeventy()).toFixed(0))}}</td></tr>
+        <tr><td>Yearly Distribution</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(yearlyDistribution(i, toSeventy()).toFixed(0))}}</td></tr>
+        <tr><td>Monthly Distribution</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(monthlyDistribution(i, toSeventy()).toFixed(0))}}</td></tr>
+        </tbody>
+        <tfoot>
+        <tr><td>Net Monthly Income</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(netMonthlyIncome(i, toSeventy()).toFixed(0))}}</td> </tr>
+        <tr><td>Net Yearly Income</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(netYearlyIncome(i, toSeventy()).toFixed(0))}}</td> </tr>
+        </tfoot>
+    </table>
+    <h2>After 10 years</h2>
+    <p>
+        Assuming your effective interest until you hit 70&frac12 was
+        <span class="form form-inline"><input class="form-control input-sm" type="number" step="0.01" ng-model="userDetails.effectiveInterestRate"></span>,
+        then your principal is ${{numberWithCommas(futureValue(userDetails.effectiveInterestRate, toSeventy()).toFixed(0))}}.  With
+        a withdrawal rate of {{(100 * userDetails.withdrawalRate).toFixed(0)}}%, your remaining principal at 80 will be
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr><th>Period's Average Return</th><th data-ng-repeat="i in interestRates">{{ (100 * i).toFixed(0) }}%</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Principal at 80</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(withdrawal(futureValue(userDetails.effectiveInterestRate, toSeventy()), 10, i).toFixed(0))}}</td></tr>
+        </tbody>
+    </table>
+    <h2>After 20 years</h2>
+    <p>
+        Assuming your effective interest from 80 to 90 was
+        <span class="form form-inline"><input class="form-control input-sm" type="number" step="0.01" ng-model="userDetails.sixtyInterest"></span>,
+        then your principal is ${{numberWithCommas(withdrawal(futureValue(userDetails.effectiveInterestRate, toSeventy()), 10, userDetails.sixtyInterest).toFixed(0))}}.
+        With a withdrawal rate of {{(100 * userDetails.withdrawalRate).toFixed(0)}}%, your remaining principal at 90 will be
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr><th>Period's Average Return</th><th data-ng-repeat="i in interestRates">{{ (100 * i).toFixed(0) }}%</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Principal at 90</td><td data-ng-repeat="i in interestRates">${{numberWithCommas(withdrawal(withdrawal(futureValue(userDetails.effectiveInterestRate, toSeventy()), 10, userDetails.sixtyInterest), 1, i).toFixed(0))}}</td></tr>
+        </tbody>
+    </table>
+</div>

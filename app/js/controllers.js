@@ -11,12 +11,17 @@ angular.module('timWeb.controllers', []).
             withdrawalRate: 0.05,
             taxRate: 0.25,
             effectiveInterestRate: 0.05,
-            sixtyInterest: 0.05
+            sixtyInterest: 0.05,
+            distributionInterest: 0.03
         };
 
         $scope.toSixty = function(){
             return 59.5 - this.userDetails.age;
         };
+
+        $scope.toSeventy = function(){
+            return 70.5 - this.userDetails.age;
+        }
 
         $scope.futureValue = function(interestRate, years){
             var interestReturn = Math.pow(1 + interestRate, years);
@@ -57,9 +62,18 @@ angular.module('timWeb.controllers', []).
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         };
 
+        $scope.moneyAtSixty = function(){
+            return this.futureValue(this.userDetails.effectiveInterestRate, this.toSixty());
+        };
+
         $scope.interestRates = [];
         for (var j = 0; j < 13; j++){
             $scope.interestRates[j] = 0.01 * j - 0.02;
+        }
+
+        $scope.ages = [];
+        for (j=0; j < 50; j++){
+            $scope.ages[j] = j + 60;
         }
 
   }])
