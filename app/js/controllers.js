@@ -8,6 +8,8 @@ angular.module('timWeb.controllers', []).
             currentPrincipal: 70000,
             yearlyContributions: 12000,
             age: 30,
+            startDistributions: 60,
+            futureYears: 10,
             withdrawalRate: 0.05,
             taxRate: 0.25,
             effectiveInterestRate: 0.05,
@@ -15,13 +17,17 @@ angular.module('timWeb.controllers', []).
             distributionInterest: 0.03
         };
 
-        $scope.toSixty = function(){
-            return 59.5 - this.userDetails.age;
+        $scope.toDistribution = function(){
+            return this.userDetails.startDistributions - this.userDetails.age;
         };
 
-        $scope.toSeventy = function(){
-            return 70.5 - this.userDetails.age;
-        }
+        $scope.futureAge = function(){
+            return this.userDetails.startDistributions + this.userDetails.futureYears;
+        };
+
+        $scope.futureMoney = function(){
+            return this.futureValue(this.userDetails.effectiveInterestRate, this.toDistribution());
+        };
 
         $scope.futureValue = function(interestRate, years){
             var interestReturn = Math.pow(1 + interestRate, years);
@@ -63,12 +69,12 @@ angular.module('timWeb.controllers', []).
         };
 
         $scope.moneyAtSixty = function(){
-            return this.futureValue(this.userDetails.effectiveInterestRate, this.toSixty());
+            return this.futureValue(this.userDetails.effectiveInterestRate, this.toDistribution());
         };
 
         $scope.interestRates = [];
-        for (var j = 0; j < 13; j++){
-            $scope.interestRates[j] = 0.01 * j - 0.02;
+        for (var j = 0; j < 6; j++){
+            $scope.interestRates[j] = 0.02 * j - 0.02;
         }
 
         $scope.ages = [];
@@ -76,7 +82,9 @@ angular.module('timWeb.controllers', []).
             $scope.ages[j] = j + 60;
         }
 
-  }])
-  .controller('MyCtrl2', [function() {
-
-  }]);
+  }]).
+controller('HeaderController', ['$scope', '$location', function($scope, $location) {
+    $scope.isActive = function(viewLocation){
+        return viewLocation === $location.path();
+    };
+}]);
