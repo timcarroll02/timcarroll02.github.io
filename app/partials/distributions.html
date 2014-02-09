@@ -83,7 +83,7 @@
             <span class="form form-inline"><input class="form-control input-sm" style="width: 59px;" type="number" step="0.01" ng-model="userDetails.effectiveInterestRate"></span>,
             then your principal was ${{numberWithCommas(futureValue(userDetails.effectiveInterestRate, toDistribution()).toFixed(0))}} when you
             began taking distributions.  With
-            a withdrawal rate of {{(100 * userDetails.withdrawalRate).toFixed(0)}}%, your remaining principal at {{futureAge()}} will be
+            a withdrawal rate of <span class="form form-inline"><input class="form-control input-sm" style="width: 59px;" type="number" step="0.01" ng-model="userDetails.withdrawalRate"></span>, your remaining principal at {{futureAge()}} will be
         </p>
         <table class="table table-striped">
             <thead>
