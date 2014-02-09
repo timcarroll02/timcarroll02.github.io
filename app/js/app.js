@@ -4,9 +4,6 @@
 // Declare app level module which depends on filters, and services
 angular.module('timWeb', [
   'ngRoute',
-  'timWeb.filters',
-  'timWeb.services',
-  'timWeb.directives',
   'timWeb.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
