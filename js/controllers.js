@@ -5,9 +5,9 @@
 angular.module('timWeb.controllers', []).
   controller('userDetails', ['$scope', function($scope) {
         $scope.userDetails = {
-            currentPrincipal: 70000,
+            currentPrincipal: 100000,
             yearlyContributions: 12000,
-            age: 30,
+            age: 40,
             startDistributions: 60,
             futureYears: 10,
             withdrawalRate: 0.05,
